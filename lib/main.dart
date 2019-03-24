@@ -12,9 +12,7 @@ class MyApp extends StatelessWidget {
     List<ShoppingItem> shopitems = List<ShoppingItem>();
     DbHelper helper = DbHelper();
     helper.initializeDb().then(
-      (result) => helper.getShopItems().then((result)=>shopitems=result));
-    ShoppingItem shoppingItem = ShoppingItem("Eggs", 5);
-    var result = helper.insertShopItem(shoppingItem);
+      (result) => helper.getShopItems().then((result)=> shopitems=result));
 
     return MaterialApp(
       title: 'Shoppinglist',

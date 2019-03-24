@@ -59,7 +59,7 @@ class DbHelper {
     return result;
   }
 
-  Future<int> updateTodo(ShoppingItem shopItem) async {
+  Future<int> updateShopItem(ShoppingItem shopItem) async {
     var db = await this.db;
     var result = await db.update(tblShopItem, shopItem.toMap(),
     where: "$colId = ?", whereArgs: [shopItem.id]);

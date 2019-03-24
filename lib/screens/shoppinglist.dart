@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/shoppingItem.dart';
 import 'package:flutter_app/util/dbhelper.dart';
+import 'package:flutter_app/screens/editShoppingItem.dart';
 
 class ShopList extends StatefulWidget {
   @override
@@ -22,7 +23,9 @@ class ShopListState extends State {
     return Scaffold(
       body: shoppingListItems(),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () {
+          navigateToAddScreen(ShoppingItem('', 1));
+        },
         tooltip: "Add new ShoppingItem",
         child: new Icon(Icons.add),
       ),
@@ -65,6 +68,11 @@ class ShopListState extends State {
       itemBuilder: (context, position) {
         return Column(
           children: <Widget>[
+            GestureDetector(
+              onLongPress: () {
+              navigateToAddScreen(shopitems[position]);
+              },
+            child:
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -97,11 +105,12 @@ class ShopListState extends State {
                           const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),
                       child: getTitle("Amount", position)
                     ),
-                    getAmount(position)
+                     getAmount(position)
                     ],
                   ),
                 ),
               ],
+            )
             ),
             Divider(
               height: 2.0,
@@ -133,4 +142,14 @@ class ShopListState extends State {
         });
     });
   }
+
+  void navigateToAddScreen(ShoppingItem shoppingItem) async {
+    bool result = await Navigator.push(
+      context, MaterialPageRoute(builder: (context) => EditShoppingItem(shoppingItem)),
+    );
+    if (result == true) {
+      getData();
+    }
+  }
+
 }
