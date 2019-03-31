@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/util/dbhelper.dart';
-import 'package:flutter_app/model/shoppingItem.dart';
 import 'package:flutter_app/screens/shoppinglist.dart';
 
 void main() => runApp(MyApp());
@@ -9,13 +8,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    List<ShoppingItem> shopitems = List<ShoppingItem>();
     DbHelper helper = DbHelper();
     helper.initializeDb().then(
-      (result) => helper.getShopItems().then((result)=> shopitems=result));
+        (result) => helper.getShopItems().then((result) => result));
 
     return MaterialApp(
-      title: 'Shoppinglist',
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
@@ -37,9 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
       body: ShopList(),
     );
   }

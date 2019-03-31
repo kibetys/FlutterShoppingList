@@ -72,4 +72,10 @@ class DbHelper {
     return result;
   }
 
+  Future<int> deleteAll() async {
+    var db = await this.db;
+    var result = await db.rawDelete("DELETE FROM $tblShopItem");
+    return result;
+  }
+
 }

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/shoppingItem.dart';
 import 'package:flutter_app/util/dbhelper.dart';
-import 'package:intl/intl.dart';
 
-DbHelper helper =DbHelper();
+DbHelper helper = DbHelper();
 
-final List<String> actions = const <String> [
-  'Save Item',
-  'Delete Item',
-  'Back'
-];
+final List<String> actions = const <String>['Save Item', 'Delete Item', 'Back'];
 
 const itemSave = 'Save Item';
 const itemDelete = 'Delete Item';
@@ -21,7 +16,6 @@ class EditShoppingItem extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => EditShoppingItemState(shoppingItem);
-
 }
 
 class EditShoppingItemState extends State {
@@ -31,72 +25,61 @@ class EditShoppingItemState extends State {
   TextEditingController amountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    nameController.text =shoppingItem.name;
+    nameController.text = shoppingItem.name;
     amountController.text = shoppingItem.amount.toString();
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(shoppingItem.name) ,
-        actions: <Widget>[
-          PopupMenuButton<String>(
-          onSelected: select,
-          itemBuilder: (BuildContext context) {
-            return actions.map((String action) {
-              return PopupMenuItem<String>(
-                value: action,
-                child: Text(action),
-              );
-            }).toList();
-          }
-          )
-        ]
-    ),
-    body:
-    Padding(
-      padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10.0),
-      child:
-      ListView(
-        children: <Widget>[
-    Column(
-      children: <Widget>[
-        TextField(
-          controller: nameController,
-          style: textStyle,
-          onChanged: (value) => this.updateName(),
-          decoration: InputDecoration(
-            labelText: 'Product',
-            labelStyle: textStyle,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0)
-            )
-          ),
-        ),
-        Padding(
-             padding: EdgeInsets.only(top: 35.0),
-             child: TextField(
-          controller: amountController,
-           keyboardType: TextInputType.number,
-          onChanged: (value) => this.updateAmount(),  
-          style: textStyle,
-          decoration: InputDecoration(
-            labelText: 'Amount',
-            labelStyle: textStyle,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0)
-            )
-          ),
-        )
-        )
-      ],
-    ),
-      ],
-      )
-    )
-    );
+        appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(shoppingItem.name),
+            actions: <Widget>[
+              PopupMenuButton<String>(
+                  onSelected: select,
+                  itemBuilder: (BuildContext context) {
+                    return actions.map((String action) {
+                      return PopupMenuItem<String>(
+                        value: action,
+                        child: Text(action),
+                      );
+                    }).toList();
+                  })
+            ]),
+        body: Padding(
+            padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10.0),
+            child: ListView(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    TextField(
+                      controller: nameController,
+                      style: textStyle,
+                      onChanged: (value) => this.updateName(),
+                      decoration: InputDecoration(
+                          labelText: 'Product',
+                          labelStyle: textStyle,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(top: 35.0),
+                        child: TextField(
+                          controller: amountController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) => this.updateAmount(),
+                          style: textStyle,
+                          decoration: InputDecoration(
+                              labelText: 'Amount',
+                              labelStyle: textStyle,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0))),
+                        ))
+                  ],
+                ),
+              ],
+            )));
   }
 
-  void select (String value) async {
+  void select(String value) async {
     int result;
     switch (value) {
       case itemSave:
@@ -107,20 +90,16 @@ class EditShoppingItemState extends State {
         if (shoppingItem.id == null) {
           return;
         }
-        result  = await helper.deleteShopItem(shoppingItem.id);
+        result = await helper.deleteShopItem(shoppingItem.id);
         if (result != 0) {
-          AlertDialog alertDialog =AlertDialog(
-            title: Text('Delete Item'),
-            content: Text('Shopping item has been deleted')
-          );
-          showDialog(
-            context: context,
-            builder: (_) => alertDialog
-          );
+          AlertDialog alertDialog = AlertDialog(
+              title: Text('Delete Item'),
+              content: Text('Shopping item has been deleted'));
+          showDialog(context: context, builder: (_) => alertDialog);
         }
         break;
       case goBack:
-          Navigator.pop(context, true);
+        Navigator.pop(context, true);
         break;
       default:
     }
@@ -141,7 +120,7 @@ class EditShoppingItemState extends State {
     shoppingItem.name = nameController.text;
   }
 
-    void updateAmount() {
+  void updateAmount() {
     shoppingItem.amount = int.tryParse(amountController.text);
   }
 }

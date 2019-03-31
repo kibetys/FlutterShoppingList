@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/shoppingItem.dart';
-import 'package:flutter_app/util/dbhelper.dart';
-import 'package:intl/intl.dart';
 
 class AddShoppingItem extends StatefulWidget {
   final ShoppingItem shoppingItem;
