@@ -4,10 +4,9 @@ import 'package:flutter_app/util/dbhelper.dart';
 
 DbHelper helper = DbHelper();
 
-final List<String> actions = const <String>['Save Item', 'Delete Item', 'Back'];
+final List<String> actions = const <String>['Save Item', 'Back'];
 
 const itemSave = 'Save Item';
-const itemDelete = 'Delete Item';
 const goBack = 'Back';
 
 class EditShoppingItem extends StatefulWidget {
@@ -88,23 +87,9 @@ class EditShoppingItemState extends State {
   }
 
   void select(String value) async {
-    int result;
     switch (value) {
       case itemSave:
         save();
-        break;
-      case itemDelete:
-        Navigator.pop(context, true);
-        if (shoppingItem.id == null) {
-          return;
-        }
-        result = await helper.deleteShopItem(shoppingItem.id);
-        if (result != 0) {
-          AlertDialog alertDialog = AlertDialog(
-              title: Text('Delete Item'),
-              content: Text('Shopping item has been deleted'));
-          showDialog(context: context, builder: (_) => alertDialog);
-        }
         break;
       case goBack:
         Navigator.pop(context, true);

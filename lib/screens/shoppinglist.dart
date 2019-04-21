@@ -61,7 +61,7 @@ class ShopListState extends State {
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 1.0, 45.0, 1.0),
+        padding: const EdgeInsets.fromLTRB(10.0, 1.0, 1.0, 1.0),
         child: Text(
           shopItems[position].amount.toString(),
           style: TextStyle(fontSize: 18.0),
@@ -130,6 +130,17 @@ class ShopListState extends State {
                         ],
                       ),
                     ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),
+                    child: FloatingActionButton(
+                        heroTag: "actionBtn-" + position.toString(),
+                        onPressed: () {
+                          delete(position);
+                          },
+                      tooltip: "Delete shopping item",
+                      child: new Icon(Icons.delete),
+                    )
+                  )
                   ],
                 )),
             Divider(
@@ -171,6 +182,17 @@ class ShopListState extends State {
     );
     if (result == true) {
       getData();
+    }
+  }
+
+  void delete(position) async {
+   int result = await helper.deleteShopItem(shopItems[position].id);
+    if (result != 0) {
+      AlertDialog alertDialog = AlertDialog(
+          title: Text('Delete Item'),
+          content: Text('Shopping item has been deleted'));
+      showDialog(context: context, builder: (_) => alertDialog);
+      this.getData();
     }
   }
 
