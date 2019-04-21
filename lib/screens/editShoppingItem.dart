@@ -76,7 +76,15 @@ class EditShoppingItemState extends State {
                   ],
                 ),
               ],
-            )));
+            )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          save();
+        },
+        tooltip: "Add new ShoppingItem",
+        child: new Icon(Icons.add),
+      ),
+    );
   }
 
   void select(String value) async {

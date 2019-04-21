@@ -9,18 +9,19 @@ class ShopList extends StatefulWidget {
 }
 
 final List<String> actions = const <String>['Delete All'];
+final List<String> itemActions = const<String>['Delete Item', 'Edit Item'];
 
 const deleteAll = 'Delete All';
 
 class ShopListState extends State {
   DbHelper helper = DbHelper();
-  List<ShoppingItem> shopitems;
+  List<ShoppingItem> shopItems;
   int count = 0;
 
   @override
   Widget build(BuildContext context) {
-    if (shopitems == null) {
-      shopitems = List<ShoppingItem>();
+    if (shopItems == null) {
+      shopItems = List<ShoppingItem>();
       getData();
     }
     return Scaffold(
@@ -49,13 +50,12 @@ class ShopListState extends State {
       ),
     );
   }
-
   Padding getAmount(int position) {
     if (position == 0) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 12.0),
         child: Text(
-          shopitems[position].amount.toString(),
+          shopItems[position].amount.toString(),
           style: TextStyle(fontSize: 18.0),
         ),
       );
@@ -63,7 +63,7 @@ class ShopListState extends State {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 1.0, 45.0, 1.0),
         child: Text(
-          shopitems[position].amount.toString(),
+          shopItems[position].amount.toString(),
           style: TextStyle(fontSize: 18.0),
         ),
       );
@@ -87,7 +87,15 @@ class ShopListState extends State {
           children: <Widget>[
             GestureDetector(
                 onLongPress: () {
-                  navigateToAddScreen(shopitems[position]);
+                  showMenu(
+                    context: context,
+                    items: itemActions.map((String action) {
+                    return PopupMenuItem<String>(
+                      value: action,
+                      child: Text(action),
+                    );
+                  }).toList()
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +111,7 @@ class ShopListState extends State {
                           padding:
                               const EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 12.0),
                           child: Text(
-                            shopitems[position].name,
+                            shopItems[position].name,
                             style: TextStyle(fontSize: 18.0),
                           ),
                         ),
@@ -148,7 +156,7 @@ class ShopListState extends State {
           debugPrint(shopList[i].name);
         }
         setState(() {
-          shopitems = shopList;
+          shopItems = shopList;
           count = count;
         });
         debugPrint("items " + count.toString());
@@ -170,7 +178,7 @@ class ShopListState extends State {
     int result;
     switch (value) {
       case deleteAll:
-        if (shopitems.length > 0) {
+        if (shopItems.length > 0) {
           result = await helper.deleteAll();
         }
         if (result != 0) {
